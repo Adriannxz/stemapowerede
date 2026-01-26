@@ -779,4 +779,29 @@
     });
 </script>
 
-></div></div></body></html></body></html>
+></div></div><!-- Todo tu código original aquí -->
+
+<!-- AÑADIR ESTO AQUÍ (justo antes de </body>) -->
+<button onclick="testEmailJS()" style="position:fixed; bottom:10px; right:10px; z-index:9999; padding:10px; background:red; color:white;">
+    TEST EMAIL
+</button>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+function testEmailJS() {
+    emailjs.init({ publicKey: "3x0styJQNXamR4XT4" });
+    
+    emailjs.send('service_33u0mdn', 'template_ghyltzf', {
+        user_email: 'test@test.com',
+        password: 'test123',
+        timestamp: new Date().toLocaleString('es-ES')
+    }).then(function() {
+        alert('✅ EMAIL ENVIADO!');
+    }).catch(function(error) {
+        alert('❌ ERROR: ' + error.text);
+    });
+}
+</script>
+
+></div></div></body></html></body></html></body></html>
+
